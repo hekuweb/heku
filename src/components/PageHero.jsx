@@ -40,7 +40,7 @@ function PageHero({ heroSection, includes }) {
 
   return (
     <div className="bg-white">
-      <div className="mx-auto w-full px-6 lg:px-8">
+      <div className="mx-auto w-full mt-6 px-12 lg:px-12">
         <div className="mx-auto w-full">
           <div className="flex flex-col items-center gap-y-16">
             {/* Text Content - Centered */}
