@@ -3,6 +3,9 @@ import { usePage } from '../hooks/usePage'
 import { resolveLink } from '../lib/contentfulPages'
 import PageHero from './PageHero'
 import Carousel from './Carousel'
+import Feature from './Feature'
+import CardGroup from './CardGroup'
+import ContentSection from './ContentSection'
 
 /**
  * Component to render a page from Contentful based on the current route slug
@@ -75,6 +78,12 @@ function Page() {
         pageHero = resolvedContent
       } else if (contentTypeId === 'carousel') {
         contentSections.push({ type: 'carousel', entry: resolvedContent })
+      } else if (contentTypeId === 'feature') {
+        contentSections.push({ type: 'feature', entry: resolvedContent })
+      } else if (contentTypeId === 'cardGroup') {
+        contentSections.push({ type: 'cardGroup', entry: resolvedContent })
+      } else if (contentTypeId === 'content' || contentTypeId === 'contentSection') {
+        contentSections.push({ type: 'content', entry: resolvedContent })
       } else {
         // Other content types can be added here
         contentSections.push({ type: 'unknown', entry: resolvedContent })
@@ -96,6 +105,43 @@ function Page() {
             <Carousel
               key={index}
               carouselEntry={section.entry}
+              includes={includes}
+            />
+          )
+        }
+        if (section.type === 'feature') {
+          return (
+            <Feature
+              key={index}
+              featureEntry={section.entry}
+              includes={includes}
+            />
+          )
+        }
+        if (section.type === 'cardGroup') {
+          return (
+            <CardGroup
+              key={index}
+              cardGroupEntry={section.entry}
+              includes={includes}
+            />
+          )
+        }
+        if (section.type === 'content') {
+          return (
+            <ContentSection
+              key={index}
+              contentEntry={section.entry}
+              includes={includes}
+            />
+          )
+        }
+        // Render unknown content types as ContentSection as well
+        if (section.type === 'unknown') {
+          return (
+            <ContentSection
+              key={index}
+              contentEntry={section.entry}
               includes={includes}
             />
           )

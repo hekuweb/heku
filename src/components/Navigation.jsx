@@ -178,7 +178,7 @@ function Navigation() {
     <header className="bg-white">
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" aria-label="Top">
         <div className="flex w-full items-center justify-between border-b border-gray-200 py-6 lg:border-none">
-          <div className="flex items-center">
+          <div className="flex items-center flex-1">
             <Link to="/" className="flex items-center gap-2 hover:opacity-90 transition-opacity">
               {logo ? (
                 <img 
@@ -195,81 +195,79 @@ function Navigation() {
               )}
             </Link>
           </div>
-          <div className="ml-10 space-x-4">
-            {/* Desktop Navigation */}
-            <div className="hidden lg:block">
-              <div className="flex items-center space-x-8">
-                {items.map((item, index) => {
-                  const hasChildren = item.items && item.items.length > 0
-                  const itemKey = `nav-${index}`
+          {/* Desktop Navigation - Centered */}
+          <div className="hidden lg:flex flex-1 justify-center items-center">
+            <div className="flex items-center space-x-8">
+              {items.map((item, index) => {
+                const hasChildren = item.items && item.items.length > 0
+                const itemKey = `nav-${index}`
 
-                  if (hasChildren) {
-                    return (
-                      <div
-                        key={itemKey}
-                        className="relative"
-                        onMouseEnter={() => toggleFlyout(itemKey)}
-                        onMouseLeave={() => closeAllFlyouts()}
+                if (hasChildren) {
+                  return (
+                    <div
+                      key={itemKey}
+                      className="relative"
+                      onMouseEnter={() => toggleFlyout(itemKey)}
+                      onMouseLeave={() => closeAllFlyouts()}
+                    >
+                      <button
+                        type="button"
+                        className="flex items-center gap-x-1 text-sm font-body font-semibold leading-6 text-gray-900"
+                        aria-expanded={openFlyouts[itemKey]}
                       >
-                        <button
-                          type="button"
-                          className="flex items-center gap-x-1 text-sm font-body font-semibold leading-6 text-gray-900"
-                          aria-expanded={openFlyouts[itemKey]}
-                        >
-                          {item.name}
-                          <svg className="h-5 w-5 flex-none text-gray-900" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                            <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd" />
-                          </svg>
-                        </button>
+                        {item.name}
+                        <svg className="h-5 w-5 flex-none text-gray-900" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                          <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd" />
+                        </svg>
+                      </button>
 
-                        {openFlyouts[itemKey] && (
-                          <div className="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
-                            <div className="p-4">
-                              <div className="grid grid-cols-1 gap-x-4 gap-y-1">
-                                {item.items.map((subItem, subIndex) => (
-                                  <Link
-                                    key={`sub-${subIndex}`}
-                                    to={subItem.href || subItem.slug || '#'}
-                                    className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50"
-                                    onClick={closeAllFlyouts}
-                                  >
-                                    <div className="flex-auto">
-                                      <span className="block font-body font-semibold text-gray-900">
-                                        {subItem.name}
-                                        <span className="absolute inset-0" />
-                                      </span>
-                                      {subItem.description && (
-                                        <span className="mt-1 block font-body text-gray-600">{subItem.description}</span>
-                                      )}
-                                    </div>
-                                  </Link>
-                                ))}
-                              </div>
+                      {openFlyouts[itemKey] && (
+                        <div className="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
+                          <div className="p-4">
+                            <div className="grid grid-cols-1 gap-x-4 gap-y-1">
+                              {item.items.map((subItem, subIndex) => (
+                                <Link
+                                  key={`sub-${subIndex}`}
+                                  to={subItem.href || subItem.slug || '#'}
+                                  className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50"
+                                  onClick={closeAllFlyouts}
+                                >
+                                  <div className="flex-auto">
+                                    <span className="block font-body font-semibold text-gray-900">
+                                      {subItem.name}
+                                      <span className="absolute inset-0" />
+                                    </span>
+                                    {subItem.description && (
+                                      <span className="mt-1 block font-body text-gray-600">{subItem.description}</span>
+                                    )}
+                                  </div>
+                                </Link>
+                              ))}
                             </div>
                           </div>
-                        )}
-                      </div>
-                    )
-                  }
-
-                  return (
-                    <Link
-                      key={itemKey}
-                      to={item.href || item.slug || '#'}
-                      className={`text-sm font-body font-semibold leading-6 ${
-                        location.pathname === (item.href || item.slug)
-                          ? 'text-brand-primary'
-                          : 'text-gray-900 hover:text-brand-primary transition-colors'
-                      }`}
-                    >
-                      {item.name}
-                    </Link>
+                        </div>
+                      )}
+                    </div>
                   )
-                })}
-              </div>
+                }
+
+                return (
+                  <Link
+                    key={itemKey}
+                    to={item.href || item.slug || '#'}
+                    className={`text-sm font-body font-semibold leading-6 ${
+                      location.pathname === (item.href || item.slug)
+                        ? 'text-brand-primary'
+                        : 'text-gray-900 hover:text-brand-primary transition-colors'
+                    }`}
+                  >
+                    {item.name}
+                  </Link>
+                )
+              })}
             </div>
           </div>
-          <div className="ml-auto flex items-center">
+          <div className="flex items-center flex-1 justify-end">
             <button
               type="button"
               className="lg:hidden -m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-900"
