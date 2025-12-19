@@ -2,6 +2,7 @@ import { useState, Fragment } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Rocket, X, List } from '@phosphor-icons/react'
 import { useNavigation } from '../hooks/useNavigation'
+import CTA from './CTA'
 
 /**
  * Navigation component with flyout menus
@@ -28,6 +29,7 @@ function Navigation() {
   // Structure: navigationItems is an array of linked entries
   const navigationItems = navigation?.fields?.navigationItems || []
   const logoLink = navigation?.fields?.logo
+  const ctaLink = navigation?.fields?.cta
 
   
   // Helper function to resolve a link
@@ -155,6 +157,18 @@ function Navigation() {
 
   const items = resolvedNavItems.length > 0 ? resolvedNavItems : defaultNavItems
 
+  // Resolve CTA if present
+  let ctaEntry = null
+  if (ctaLink) {
+    if (ctaLink.fields) {
+      // Already resolved
+      ctaEntry = ctaLink
+    } else if (ctaLink.sys) {
+      // Need to resolve from includes
+      ctaEntry = resolveLink(ctaLink, 'Entry')
+    }
+  }
+
   if (loading) {
     return (
       <header className="bg-white">
@@ -267,7 +281,24 @@ function Navigation() {
               })}
             </div>
           </div>
-          <div className="flex items-center flex-1 justify-end">
+          <div className="flex items-center flex-1 justify-end gap-4">
+            {/* CTA - Desktop */}
+            {ctaEntry && ctaEntry.fields && (
+              <div className="hidden lg:block">
+                <CTA
+                  ctaLabel={ctaEntry.fields.ctaLabel}
+                  ctaLink={ctaEntry.fields.ctaLink}
+                  icon={ctaEntry.fields.icon}
+                  openInNewTab={ctaEntry.fields.openInNewTab}
+                  style={ctaEntry.fields.style}
+                  // Legacy support
+                  text={ctaEntry.fields.text}
+                  url={ctaEntry.fields.url}
+                  showArrow={ctaEntry.fields.showArrow !== false}
+                />
+              </div>
+            )}
+            {/* Mobile menu button */}
             <button
               type="button"
               className="lg:hidden -m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-900"
@@ -375,6 +406,22 @@ function Navigation() {
                       )
                     })}
                   </div>
+                  {/* CTA - Mobile */}
+                  {ctaEntry && ctaEntry.fields && (
+                    <div className="py-6 border-t border-gray-500/10">
+                      <CTA
+                        ctaLabel={ctaEntry.fields.ctaLabel}
+                        ctaLink={ctaEntry.fields.ctaLink}
+                        icon={ctaEntry.fields.icon}
+                        openInNewTab={ctaEntry.fields.openInNewTab}
+                        style={ctaEntry.fields.style}
+                        // Legacy support
+                        text={ctaEntry.fields.text}
+                        url={ctaEntry.fields.url}
+                        showArrow={ctaEntry.fields.showArrow !== false}
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

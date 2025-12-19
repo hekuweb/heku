@@ -21,5 +21,10 @@
   .scrollbar-hide::-webkit-scrollbar {
     display: none;  /* Chrome, Safari and Opera */
   }
+  
+  /* Remove margin from paragraphs containing ListItems */
+  .rich-text-content p:has(.rich-text-list-item) {
+    margin-bottom: 0;
+  }
 }
 

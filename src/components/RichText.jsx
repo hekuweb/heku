@@ -1,6 +1,8 @@
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { BLOCKS, INLINES, MARKS } from '@contentful/rich-text-types'
 import { resolveLink } from '../lib/contentfulPages'
+import CTA from './CTA'
+import ListItem from './ListItem'
 
 /**
  * Component to render Contentful Rich Text fields
@@ -67,7 +69,38 @@ function RichText({ richTextDocument, includes }) {
         const contentTypeId = entry.sys?.contentType?.sys?.id
         const fields = entry.fields || {}
         
-        // You can add specific rendering for different content types here
+        // Handle CTA embedded entries
+        if (contentTypeId === 'cta' || contentTypeId === 'CTA') {
+          return (
+            <div className="my-4 inline-block">
+              <CTA
+                ctaLabel={fields.ctaLabel}
+                ctaLink={fields.ctaLink}
+                icon={fields.icon}
+                openInNewTab={fields.openInNewTab}
+                style={fields.style}
+                // Legacy support
+                text={fields.text}
+                url={fields.url}
+                showArrow={fields.showArrow !== false}
+              />
+            </div>
+          )
+        }
+        
+        // Handle ListItem embedded entries
+        if (contentTypeId === 'listItem' || contentTypeId === 'ListItem' || contentTypeId === 'list-item') {
+          return (
+            <ListItem
+              itemLabel={fields.itemLabel}
+              itemIcon={fields.itemIcon}
+              itemTitle={fields.itemTitle}
+              itemText={fields.itemText}
+            />
+          )
+        }
+        
+        // Default fallback for other embedded entry types
         return (
           <div className="my-4 p-4 bg-gray-50 rounded">
             <p className="text-sm text-gray-500">Embedded: {contentTypeId}</p>
@@ -122,6 +155,50 @@ function RichText({ richTextDocument, includes }) {
       [INLINES.ENTRY_HYPERLINK]: (node, children) => {
         // Handle entry hyperlinks if needed
         return <span className="text-brand-primary">{children}</span>
+      },
+      [INLINES.EMBEDDED_ENTRY]: (node) => {
+        // Handle inline embedded entries (e.g., inline CTAs)
+        const entryId = node.data.target.sys.id
+        const entry = resolveLink({ sys: { id: entryId, linkType: 'Entry' } }, includes)
+        
+        if (!entry) return null
+        
+        const contentTypeId = entry.sys?.contentType?.sys?.id
+        const fields = entry.fields || {}
+        
+        // Handle inline CTA embedded entries
+        if (contentTypeId === 'cta' || contentTypeId === 'CTA') {
+          return (
+            <span className="inline-block">
+              <CTA
+                ctaLabel={fields.ctaLabel}
+                ctaLink={fields.ctaLink}
+                icon={fields.icon}
+                openInNewTab={fields.openInNewTab}
+                style={fields.style}
+                // Legacy support
+                text={fields.text}
+                url={fields.url}
+                showArrow={fields.showArrow !== false}
+              />
+            </span>
+          )
+        }
+        
+        // Handle inline ListItem embedded entries
+        if (contentTypeId === 'listItem' || contentTypeId === 'ListItem' || contentTypeId === 'list-item') {
+          return (
+            <ListItem
+              itemLabel={fields.itemLabel}
+              itemIcon={fields.itemIcon}
+              itemTitle={fields.itemTitle}
+              itemText={fields.itemText}
+            />
+          )
+        }
+        
+        // Default fallback for other inline embedded entry types
+        return <span className="text-brand-primary">[Embedded: {contentTypeId}]</span>
       },
       [INLINES.ASSET_HYPERLINK]: (node, children) => {
         // Handle asset hyperlinks if needed
