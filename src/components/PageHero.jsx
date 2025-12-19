@@ -71,7 +71,7 @@ function PageHero({ heroSection, includes }) {
                 </div>
                 
                 {/* Image container - centered */}
-                <div className="relative z-10 mx-auto max-w-4xl overflow-hidden rounded-t-3xl shadow-2xl border-[20px] border-t-black border-r-black border-l-black border-b-0">
+                <div className="relative z-10 mx-auto max-w-4xl overflow-hidden rounded-t-3xl shadow-2xl">
                   <div className="relative aspect-[16/10] w-full overflow-hidden bg-gray-900">
                     <img
                       src={imageUrl}
