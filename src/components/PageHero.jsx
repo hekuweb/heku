@@ -1,8 +1,9 @@
 import { resolveLink } from '../lib/contentfulPages'
+import CTA from './CTA'
 
 /**
  * Component to render a hero section from Contentful
- * Tailwind UI "With app screenshot" design pattern
+ * Tailwind UI "Split with bordered screenshot" design pattern
  * Handles pageHero content type with titleText, subtitleText, and image
  * @param {Object} props
  * @param {Object} props.heroSection - The hero section entry from Contentful
@@ -38,16 +39,28 @@ function PageHero({ heroSection, includes }) {
   // Get alt text from image entry
   const altText = imageEntry?.fields?.altText || ''
 
+  // Resolve CTA if present
+  let ctaEntry = null
+  if (fields.cta) {
+    if (fields.cta.fields) {
+      // Already resolved
+      ctaEntry = fields.cta
+    } else if (fields.cta.sys) {
+      // Need to resolve from includes
+      ctaEntry = resolveLink(fields.cta, includes)
+    }
+  }
+
   return (
-    <div className="bg-white">
-      <div className="mx-auto w-full mt-6 px-12 lg:px-12">
-        <div className="mx-auto w-full">
-          <div className="flex flex-col items-center gap-y-16">
-            {/* Text Content - Centered */}
-            <div className="text-center">
+    <div className="bg-white md:h-[60dvh] content-center">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2">
+          {/* Text Content - Left Side */}
+          <div className="lg:pr-8 lg:pt-4 content-center">
+            <div className="lg:max-w-lg">
               {fields.titleText && (
-                <h1 className="text-6xl font-heading tracking-tight text-gray-900 sm:text-8xl lg:text-9xl">
-                  {fields.titleText}
+                <h1 className="text-8xl font-heading tracking-tight text-gray-900 sm:text-8xl lg:text-8xl">
+                  {fields.titleText} <img src="https://res.cloudinary.com/heku/image/upload/v1765984302/heku-gold_hebclv.svg" alt="Heku Logo" className="h-16 w-auto inline mb-[18px]" />
                 </h1>
               )}
               {fields.subtitleText && (
@@ -55,34 +68,37 @@ function PageHero({ heroSection, includes }) {
                   {fields.subtitleText}
                 </p>
               )}
+              {/* CTA */}
+              {ctaEntry && ctaEntry.fields && (
+                <div className="mt-10">
+                  <CTA
+                    ctaLabel={ctaEntry.fields.ctaLabel}
+                    ctaLink={ctaEntry.fields.ctaLink}
+                    icon={ctaEntry.fields.icon}
+                    openInNewTab={ctaEntry.fields.openInNewTab}
+                    style={ctaEntry.fields.style}
+                    // Legacy support
+                    text={ctaEntry.fields.text}
+                    url={ctaEntry.fields.url}
+                    showArrow={ctaEntry.fields.showArrow !== false}
+                  />
+                </div>
+              )}
             </div>
-
-            {/* App Screenshot - Centered below text */}
-            {imageUrl && (
-              <div className="w-full relative">
-                {/* Decorative rectangle - full width, behind image, positioned at bottom */}
-                <div className="absolute inset-0 flex items-end justify-center z-0">
-                  <div 
-                    className="w-full h-[75%] rounded-3xl"
-                    style={{
-                      background: 'linear-gradient(196deg,rgba(41, 35, 92, 1) 25%, rgba(202, 158, 103, 1) 100%)'
-                    }}
-                  ></div>
-                </div>
-                
-                {/* Image container - centered */}
-                <div className="relative z-10 mx-auto max-w-4xl overflow-hidden rounded-t-3xl shadow-2xl">
-                  <div className="relative aspect-[16/10] w-full overflow-hidden bg-gray-900">
-                    <img
-                      src={imageUrl}
-                      alt={altText}
-                      className="h-full w-full object-cover"
-                    />
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
+
+          {/* Screenshot - Right Side */}
+          {imageUrl && (
+            <div className="lg:pr-8 lg:pt-4">
+              <div className="relative overflow-hidden rounded-3xl bg-gray-900 px-6 pb-9 pt-64 shadow-2xl sm:px-12 sm:pb-12 sm:pt-80 lg:mx-0 lg:max-w-none lg:px-16 lg:pb-16 lg:pt-96">
+                <img
+                  src={imageUrl}
+                  alt={altText}
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

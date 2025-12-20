@@ -269,7 +269,7 @@ function Navigation() {
                   <Link
                     key={itemKey}
                     to={item.href || item.slug || '#'}
-                    className={`text-sm font-body font-semibold leading-6 ${
+                    className={`text-m font-body font-semibold leading-6 ${
                       location.pathname === (item.href || item.slug)
                         ? 'text-brand-primary'
                         : 'text-gray-900 hover:text-brand-primary transition-colors'
