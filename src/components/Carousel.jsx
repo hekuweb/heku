@@ -34,7 +34,7 @@ function Carousel({ carouselEntry, includes }) {
   }
 
   return (
-    <div className="bg-white py-12 sm:py-16">
+    <div className="bg-white py-10 sm:py-10">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         {/* Title */}
         {fields.title && (

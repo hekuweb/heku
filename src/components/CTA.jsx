@@ -47,13 +47,15 @@ function CTA({
   }
 
   // Determine button style based on style prop
-  let buttonClassName = "inline-flex items-center gap-2 px-6 py-3 rounded-full font-body transition-colors"
+  let buttonClassName = "inline-flex items-center gap-2 px-6 py-3 font-body font-semibold transition-colors shadow-lg"
   
-  if (style === 'Primary Brand Blue' || !style) {
-    buttonClassName += " bg-brand-primary text-white hover:bg-brand-primary/90"
+  if (style === 'White' || style === 'white') {
+    buttonClassName += " bg-white text-gray-900 rounded-xl hover:bg-gray-100"
+  } else if (style === 'Primary Brand Blue' || !style) {
+    buttonClassName += " bg-brand-primary text-white rounded-full hover:bg-brand-primary/90"
   } else {
     // Default to primary style if style is not recognized
-    buttonClassName += " bg-brand-primary text-white hover:bg-brand-primary/90"
+    buttonClassName += " bg-brand-primary text-white rounded-full hover:bg-brand-primary/90"
   }
 
   const linkProps = {

@@ -20,6 +20,10 @@ export default {
           'error': '#CC2936',
         },
       },
+      // All Tailwind width utilities are available by default
+      // You can add custom width values here if needed
+      // Standard utilities include: w-*, max-w-*, min-w-*, etc.
+      // Arbitrary values are also supported: w-[75%], max-w-[1200px], etc.
     },
   },
   plugins: [],

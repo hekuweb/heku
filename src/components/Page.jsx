@@ -2,6 +2,7 @@ import { useLocation } from 'react-router-dom'
 import { usePage } from '../hooks/usePage'
 import { resolveLink } from '../lib/contentfulPages'
 import PageHero from './PageHero'
+import PageHeroV2 from './PageHeroV2'
 import Carousel from './Carousel'
 import Feature from './Feature'
 import CardGroup from './CardGroup'
@@ -54,6 +55,7 @@ function Page() {
 
   // Process content array to find different content types
   let pageHero = null
+  let pageHeroV2 = null
   const contentSections = []
   
   if (fields.content && Array.isArray(fields.content)) {
@@ -76,6 +78,8 @@ function Page() {
       
       if (contentTypeId === 'pageHero') {
         pageHero = resolvedContent
+      } else if (contentTypeId === 'pageHerov2' || contentTypeId === 'pageHeroV2') {
+        pageHeroV2 = resolvedContent
       } else if (contentTypeId === 'carousel') {
         contentSections.push({ type: 'carousel', entry: resolvedContent })
       } else if (contentTypeId === 'feature') {
@@ -94,7 +98,10 @@ function Page() {
   return (
     <>
       {/* Render hero section if it exists */}
-      {pageHero && (
+      {pageHeroV2 && (
+        <PageHeroV2 heroSection={pageHeroV2} includes={includes} />
+      )}
+      {!pageHeroV2 && pageHero && (
         <PageHero heroSection={pageHero} includes={includes} />
       )}
 
@@ -151,7 +158,7 @@ function Page() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Render page title only if there's no hero section (hero section has its own title) */}
-        {!pageHero && fields.title && (
+        {!pageHero && !pageHeroV2 && fields.title && (
           <h1 className="text-4xl font-heading text-brand-primary mb-6">
             {fields.title}
           </h1>
