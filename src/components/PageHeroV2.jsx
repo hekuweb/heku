@@ -50,7 +50,7 @@ function PageHeroV2({ heroSection, includes }) {
             <div className="lg:max-w-full">
               {fields.titleText && (
                 <h1 className="text-4xl font-heading tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
-                  {fields.titleText} <img src="https://res.cloudinary.com/heku/image/upload/v1765984302/heku-gold_hebclv.svg" alt="Heku Logo" className="h-11 w-auto inline mb-[16px]" />
+                  {fields.titleText} <img src="https://res.cloudinary.com/heku/image/upload/f_webp/q_auto/v1765984303/heku-blue_m4rl3o.svg" alt="Heku Logo" className="h-11 w-auto inline mb-[16px]" />
                 </h1>
               )}
               {fields.subtitleText && (

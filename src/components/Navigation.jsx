@@ -106,9 +106,30 @@ function Navigation() {
       // Get the navigation title - field name is "navigationTitle"
       const name = fields.navigationTitle || fields.name || fields.label || fields.title || fields.entryTitle || ''
       
-      // Get href/slug - check multiple possible field names
-      const href = fields.href || fields.slug || fields.path || 
-                   (name ? `/${name.toLowerCase().replace(/\s+/g, '-')}` : '#')
+      // Get href/slug - check if there's a linked page entry first
+      let href = fields.href || fields.slug || fields.path
+      
+      // If no direct href/slug, check for a linked page entry
+      if (!href) {
+        const pageLink = fields.page || fields.link || fields.targetPage
+        if (pageLink) {
+          let pageEntry = null
+          if (pageLink.fields) {
+            pageEntry = pageLink
+          } else if (pageLink.sys) {
+            pageEntry = resolveLink(pageLink, includes)
+          }
+          
+          if (pageEntry?.fields?.slug) {
+            href = pageEntry.fields.slug
+          }
+        }
+      }
+      
+      // Fallback to generated slug from name
+      if (!href) {
+        href = name ? `/${name.toLowerCase().replace(/\s+/g, '-')}` : '#'
+      }
       
       // Handle nested children if they exist
       let children = null
@@ -126,8 +147,31 @@ function Navigation() {
             }
             
             const childName = childFields.navigationTitle || childFields.name || childFields.label || childFields.title || childFields.entryTitle || ''
-            const childHref = childFields.href || childFields.slug || childFields.path || 
-                             (childName ? `/${childName.toLowerCase().replace(/\s+/g, '-')}` : '#')
+            
+            // Get href/slug - check if there's a linked page entry first
+            let childHref = childFields.href || childFields.slug || childFields.path
+            
+            // If no direct href/slug, check for a linked page entry
+            if (!childHref) {
+              const childPageLink = childFields.page || childFields.link || childFields.targetPage
+              if (childPageLink) {
+                let childPageEntry = null
+                if (childPageLink.fields) {
+                  childPageEntry = childPageLink
+                } else if (childPageLink.sys) {
+                  childPageEntry = resolveLink(childPageLink, includes)
+                }
+                
+                if (childPageEntry?.fields?.slug) {
+                  childHref = childPageEntry.fields.slug
+                }
+              }
+            }
+            
+            // Fallback to generated slug from name
+            if (!childHref) {
+              childHref = childName ? `/${childName.toLowerCase().replace(/\s+/g, '-')}` : '#'
+            }
             
             return {
               name: childName,

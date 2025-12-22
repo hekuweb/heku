@@ -59,7 +59,7 @@ function ContentSection({ contentEntry, includes }) {
           />
         )}
 
-        <div className="max-w-4xl mx-auto">
+        <div className="mx-auto">
           {/* Rich Text Content */}
           {richTextDocument && (
             <RichText richTextDocument={richTextDocument} includes={includes} />
