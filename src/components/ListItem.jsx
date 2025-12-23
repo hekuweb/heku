@@ -10,7 +10,8 @@ import PhosphorIcon from './PhosphorIcon'
  * @param {string} props.itemText - Optional additional text/description for the item
  */
 function ListItem({ itemLabel, itemIcon, itemTitle, itemText }) {
-  if (!itemTitle) {
+  // Render if we have at least one of: itemTitle, itemText, itemLabel, or itemIcon
+  if (!itemTitle && !itemText && !itemLabel && !itemIcon) {
     return null
   }
 
@@ -22,7 +23,7 @@ function ListItem({ itemLabel, itemIcon, itemTitle, itemText }) {
           <PhosphorIcon 
             iconName={itemIcon} 
             size={24} 
-            weight="regular" 
+            weight="duotone" 
             className="text-gray-500"
           />
         ) : (
@@ -42,7 +43,7 @@ function ListItem({ itemLabel, itemIcon, itemTitle, itemText }) {
           </h3>
         )}
         {itemText && (
-          <p className="text-sm font-body text-gray-600">
+          <p className={`text-sm font-body text-gray-600 ${itemTitle ? '' : 'mt-0'}`}>
             {itemText}
           </p>
         )}

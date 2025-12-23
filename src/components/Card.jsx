@@ -50,11 +50,11 @@ function Card({ cardEntry, includes }) {
   }
 
   return (
-    <div className="flex flex-col pt-8 border-t border-grey-500">
+    <div className="group flex flex-col pt-8 border-t border-grey-500">
       {/* Icon */}
       {iconName && (
         <div className="mb-4">
-          <PhosphorIcon iconName={iconName} size={24} weight="regular" className="text-black" />
+          <PhosphorIcon iconName={iconName} size={24} weight="duotone" className="text-black group-hover:text-brand-secondary transition-colors" />
         </div>
       )}
 
@@ -76,8 +76,14 @@ function Card({ cardEntry, includes }) {
       {ctaEntry && ctaEntry.fields && (
         <div className="mt-auto">
           <CTA
-            text={ctaEntry.fields.text || 'Learn More'}
-            url={ctaEntry.fields.url || '#'}
+            ctaLabel={ctaEntry.fields.ctaLabel}
+            ctaLink={ctaEntry.fields.ctaLink}
+            icon={ctaEntry.fields.icon}
+            openInNewTab={ctaEntry.fields.openInNewTab}
+            style={ctaEntry.fields.style}
+            // Legacy support
+            text={ctaEntry.fields.text}
+            url={ctaEntry.fields.url}
             showArrow={ctaEntry.fields.showArrow !== false}
           />
         </div>

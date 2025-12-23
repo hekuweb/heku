@@ -249,7 +249,7 @@ function Navigation() {
                   }}
                 />
               ) : (
-                <Rocket size={32} weight="fill" className="text-brand-secondary" />
+                <Rocket size={32} weight="duotone" className="text-brand-secondary" />
               )}
             </Link>
           </div>
@@ -350,9 +350,9 @@ function Navigation() {
             >
               <span className="sr-only">Open main menu</span>
               {mobileMenuOpen ? (
-                <X className="h-6 w-6" aria-hidden="true" />
+                <X className="h-6 w-6" weight="duotone" aria-hidden="true" />
               ) : (
-                <List className="h-6 w-6" aria-hidden="true" />
+                <List className="h-6 w-6" weight="duotone" aria-hidden="true" />
               )}
             </button>
           </div>
@@ -376,7 +376,7 @@ function Navigation() {
                       }}
                     />
                   ) : (
-                    <Rocket size={24} weight="fill" className="text-brand-secondary" />
+                    <Rocket size={24} weight="duotone" className="text-brand-secondary" />
                   )}
                 </Link>
                 <button
@@ -385,7 +385,7 @@ function Navigation() {
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   <span className="sr-only">Close menu</span>
-                  <X className="h-6 w-6" aria-hidden="true" />
+                  <X className="h-6 w-6" weight="duotone" aria-hidden="true" />
                 </button>
               </div>
               <div className="mt-6 flow-root">

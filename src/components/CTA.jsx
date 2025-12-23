@@ -71,7 +71,7 @@ function CTA({
     <a {...linkProps}>
       <span>{label}</span>
       {showIcon && iconName && (
-        <PhosphorIcon iconName={iconName} size={16} weight="bold" />
+        <PhosphorIcon iconName={iconName} size={16} weight="duotone" />
       )}
     </a>
   )

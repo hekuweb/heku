@@ -29,7 +29,7 @@ function RichText({ richTextDocument, includes }) {
         <p className="mb-4 text-gray-700 font-body leading-relaxed">{children}</p>
       ),
       [BLOCKS.HEADING_1]: (node, children) => (
-        <h1 className="text-4xl font-heading text-gray-900 mb-4 mt-6">{children}</h1>
+        <h1 className="text-[80px] font-heading text-gray-900 mb-4 mt-6">{children}</h1>
       ),
       [BLOCKS.HEADING_2]: (node, children) => (
         <h2 className="text-[60px] font-heading text-gray-900 mb-3 mt-6">{children}</h2>
@@ -47,12 +47,12 @@ function RichText({ richTextDocument, includes }) {
         <h6 className="text-base font-heading text-gray-900 mb-2 mt-3">{children}</h6>
       ),
       [BLOCKS.UL_LIST]: (node, children) => (
-        <ul className="list-disc list-inside mb-4 space-y-2 text-gray-700 font-body">{children}</ul>
+        <ul className="list-disc list-outside mb-4 space-y-2 text-gray-700 font-body ml-6">{children}</ul>
       ),
       [BLOCKS.OL_LIST]: (node, children) => (
-        <ol className="list-decimal list-inside mb-4 space-y-2 text-gray-700 font-body">{children}</ol>
+        <ol className="list-decimal list-outside mb-4 space-y-2 text-gray-700 font-body ml-6">{children}</ol>
       ),
-      [BLOCKS.LIST_ITEM]: (node, children) => <li className="ml-4">{children}</li>,
+      [BLOCKS.LIST_ITEM]: (node, children) => <li>{children}</li>,
       [BLOCKS.QUOTE]: (node, children) => (
         <blockquote className="border-l-4 border-gray-300 pl-4 italic my-4 text-gray-600 font-body">
           {children}

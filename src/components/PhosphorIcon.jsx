@@ -18,9 +18,10 @@ function toPascalCase(str) {
  * Component to dynamically render Phosphor icons by name
  * @param {Object} props
  * @param {string} props.iconName - The name of the Phosphor icon (e.g., "ArrowUpRight", "Globe", "brain", "globe-hemisphere-east")
+ * @param {string} props.weight - The icon weight (defaults to "duotone")
  * @param {Object} props.props - Additional props to pass to the icon component
  */
-function PhosphorIcon({ iconName, ...props }) {
+function PhosphorIcon({ iconName, weight = 'duotone', ...props }) {
   if (!iconName) {
     return null
   }
@@ -34,7 +35,7 @@ function PhosphorIcon({ iconName, ...props }) {
     return null
   }
 
-  return <IconComponent {...props} />
+  return <IconComponent weight={weight} {...props} />
 }
 
 export default PhosphorIcon

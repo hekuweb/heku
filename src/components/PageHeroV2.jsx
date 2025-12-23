@@ -75,7 +75,7 @@ function PageHeroV2({ heroSection, includes }) {
                           <PhosphorIcon 
                             iconName={fields.itemIcon} 
                             size={24} 
-                            weight="regular" 
+                            weight="duotone" 
                             className="text-gray-900"
                           />
                         ) : (
